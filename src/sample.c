@@ -7,13 +7,16 @@ int f() {
 
 int main()
 {
-	lambda_func f = lambda_compile("x*x");
+	int i;
 
-	for (int i = 1; i <= 10; i++) {
+	lambda_func f = lambda_compile("x*x+5");
+
+	for (i = 1; i <= 10; i++) {
 		printf("%d^2 = %d\n", i, f(i));
 	}
 
 	lambda_cleanup(f);
 
+	getchar();
 	return 0;
 }

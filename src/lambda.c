@@ -1,22 +1,21 @@
 #include <lambda.h>
+#include <lambda_lex.h>
 #include <string.h>
-
-#if defined(_WIN32)
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#elif defined(__linux__)
-#include <sys/mman.h>
-#endif
 
 lambda_func lambda_compile(const char* expr)
 {
-#if defined(_WIN32)
-	char* foo = (char*)VirtualAlloc(0, 8, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-#elif defined(__linux__)
-	char* foo = mmap(0, 8, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-#endif
+	struct lambda_lex_token* tokens = NULL;
+	uchar* foo;
 
-	// Dummy function that always returns zero
+	// Lexical analysis
+	if (lambda_lex(expr, &tokens) == 0)
+		return NULL;
+
+	// TODO: Clean up tokens after finishing
+	
+	// Return dummy function that always returns zero
+	foo = (uchar*)lambda_alloc(8, true);
+
 	foo[0] = 0xB8;
 	foo[1] = 0x00;
 	foo[2] = 0x00;
@@ -29,9 +28,5 @@ lambda_func lambda_compile(const char* expr)
 
 void lambda_cleanup(lambda_func f)
 {
-#if defined(_WIN32)
-	VirtualFree(f, 8, MEM_RELEASE);
-#elif defined(__linux))
-	munmap(f, 8);
-#endif
+	lambda_free(f);
 }

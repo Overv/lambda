@@ -12,9 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\lambda.c" />
+    <ClCompile Include="..\..\src\lambda_lex.c" />
+    <ClCompile Include="..\..\src\lambda_mem.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\lambda.h" />
+    <ClInclude Include="..\..\include\lambda_lex.h" />
+    <ClInclude Include="..\..\include\lambda_mem.h" />
+    <ClInclude Include="..\..\include\lambda_types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}</ProjectGuid>
@@ -58,7 +63,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,7 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
