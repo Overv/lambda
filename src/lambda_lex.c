@@ -36,6 +36,13 @@ bool lambda_lex(const char* expr, struct lambda_lex_token** tokens)
 			t->type = LAMBDA_TOKEN_OPERATOR;
 			t->value.op = s.cur;
 			break;
+
+		case ' ': case '\t':
+			break;
+
+		default:
+			// TODO: Clean up
+			return false;
 		}
 
 		// Update lex state
@@ -79,4 +86,15 @@ int lambda_lex_read_number(struct lambda_lex_state* state)
 	state->next = *(state->ptr + 1);
 
 	return n;
+}
+
+void lambda_lex_cleanup(struct lambda_lex_token* tokens)
+{
+	for (;;)
+	{
+		if (tokens->prev != NULL) free(tokens->prev);
+		if (tokens->next == NULL) break;
+		tokens = tokens->next;
+	}
+	free(tokens);
 }

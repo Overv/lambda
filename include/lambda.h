@@ -3,7 +3,6 @@
 
 // Headers
 #include <lambda_types.h>
-#include <lambda_mem.h>
 
 // Compiled lambda expression
 typedef int (*lambda_func)(int);

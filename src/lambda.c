@@ -1,4 +1,5 @@
 #include <lambda.h>
+#include <lambda_mem.h>
 #include <lambda_lex.h>
 #include <string.h>
 
@@ -11,7 +12,7 @@ lambda_func lambda_compile(const char* expr)
 	if (lambda_lex(expr, &tokens) == 0)
 		return NULL;
 
-	// TODO: Clean up tokens after finishing
+	lambda_lex_cleanup(tokens);
 	
 	// Return dummy function that always returns zero
 	foo = (uchar*)lambda_alloc(8, true);
