@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\lambda.c" />
+    <ClCompile Include="..\..\src\lambda_asm.c" />
     <ClCompile Include="..\..\src\lambda_lex.c" />
     <ClCompile Include="..\..\src\lambda_mem.c" />
   </ItemGroup>
