@@ -38,5 +38,8 @@
     <ClInclude Include="..\..\include\lambda_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\lambda_asm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

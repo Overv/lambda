@@ -1,32 +1,35 @@
 #include <lambda.h>
 #include <lambda_mem.h>
 #include <lambda_lex.h>
-#include <string.h>
+#include <lambda_asm.h>
 
 lambda_func lambda_compile(const char* expr)
 {
 	struct lambda_lex_token* tokens = NULL;
-	uchar* foo;
+	uchar* code;
 
 	// Lexical analysis
 	if (lambda_lex(expr, &tokens) == 0)
 		return NULL;
 
+	// Generate code
+	code = (uchar*)lambda_alloc(16, true);
+
+	code[0] = POP;
+	code[1] = ECX;
+	code[2] = POP;
+	code[3] = EAX;
+	code[4] = IMUL_OP1;
+	code[5] = IMUL_OP2;
+	code[6] = EAX;
+	code[7] = PUSH + EAX - EAX;
+	code[8] = PUSH + ECX - EAX;
+	code[9] = RET;
+
+	// Clean up
 	lambda_lex_cleanup(tokens);
-	
-	// Return dummy function that always returns x squared
-	foo = (uchar*)lambda_alloc(8, true);
 
-	foo[0] = 0x59; // pop ecx
-	foo[1] = 0x58; // pop eax
-	foo[2] = 0x0F; // imul eax, eax
-	foo[3] = 0xAF;
-	foo[4] = 0xC0;
-	foo[5] = 0x50; // push eax
-	foo[6] = 0x51; // push ecx
-	foo[7] = 0xC3; // ret
-
-	return (lambda_func)foo;
+	return (lambda_func)code;
 }
 
 void lambda_cleanup(lambda_func f)

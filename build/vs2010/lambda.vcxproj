@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\lambda.h" />
+    <ClInclude Include="..\..\include\lambda_asm.h" />
     <ClInclude Include="..\..\include\lambda_lex.h" />
     <ClInclude Include="..\..\include\lambda_mem.h" />
     <ClInclude Include="..\..\include\lambda_types.h" />
