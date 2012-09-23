@@ -14,11 +14,13 @@ lambda_func lambda_compile(const char* expr)
 
 	// Generate code
 	// TODO: Support more than just constant[+-*/]constant by writing a real parser/compiler/assembler
-	if (tokens->type != LAMBDA_TOKEN_NUMBER || tokens->next->type != LAMBDA_TOKEN_OPERATOR ||
-		tokens->next->next->type != LAMBDA_TOKEN_NUMBER || tokens->next->next->next->type != LAMBDA_TOKEN_EOF)
+	if ((tokens->type != LAMBDA_TOKEN_NUMBER && tokens->type != LAMBDA_TOKEN_VARIABLE) ||
+		tokens->next->type != LAMBDA_TOKEN_OPERATOR ||
+		(tokens->next->next->type != LAMBDA_TOKEN_NUMBER && tokens->next->next->type != LAMBDA_TOKEN_VARIABLE) ||
+		tokens->next->next->next->type != LAMBDA_TOKEN_EOF)
 		return NULL;
 
-	f = lambda_asm_test(tokens->value.number, tokens->next->value.op, tokens->next->next->value.number);
+	f = lambda_asm_test(tokens, tokens->next->value.op, tokens->next->next);
 
 	// Clean up
 	lambda_lex_cleanup(tokens);

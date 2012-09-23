@@ -2,6 +2,7 @@
 #define LAMBDA_ASSEMBLER_HPP
 
 #include <lambda_types.h>
+#include <lambda_lex.h>
 
 /*
 	Assembler (x86)
@@ -27,6 +28,6 @@
 #define ESI 0xC6
 #define EDI 0xC7
 
-lambda_func lambda_asm_test(int a, char op, int b);
+lambda_func lambda_asm_test(struct lambda_lex_token* a, char op, struct lambda_lex_token* b);
 
 #endif

@@ -5,7 +5,7 @@ int main()
 {
 	int i;
 
-	lambda_func f = lambda_compile("104/13");
+	lambda_func f = lambda_compile("x*x");
 
 	for (i = 1; i <= 10; i++) {
 		printf("%d^2 = %d\n", i, f(i));
