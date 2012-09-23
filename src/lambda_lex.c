@@ -41,7 +41,7 @@ bool lambda_lex(const char* expr, struct lambda_lex_token** tokens)
 			break;
 
 		default:
-			// TODO: Clean up
+			lambda_lex_cleanup(s.first_token);
 			return false;
 		}
 
