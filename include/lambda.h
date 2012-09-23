@@ -1,6 +1,7 @@
 #ifndef LAMBDA_HPP
 #define LAMBDA_HPP
 
+// Headers
 #include <stdlib.h>
 
 // Compiled lambda expression

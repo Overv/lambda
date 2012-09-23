@@ -1,2 +1,9 @@
 bin/
 lib/
+build/vs2010/Debug/
+build/vs2010/Release/
+build/vs2010/sample/Debug/
+build/vs2010/sample/Release/
+*.sdf
+*.ipch
+*.opensdf

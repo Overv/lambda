@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda", "lambda.vcxproj", "{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "sample\sample.vcxproj", "{0F924EC6-377E-42A8-A08C-3B2B1DAA5CEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6F0E8C3E-F606-498A-87AF-0E24A6358F2B} = {6F0E8C3E-F606-498A-87AF-0E24A6358F2B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}.Debug|Win32.Build.0 = Debug|Win32
+		{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}.Release|Win32.ActiveCfg = Release|Win32
+		{6F0E8C3E-F606-498A-87AF-0E24A6358F2B}.Release|Win32.Build.0 = Release|Win32
+		{0F924EC6-377E-42A8-A08C-3B2B1DAA5CEA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0F924EC6-377E-42A8-A08C-3B2B1DAA5CEA}.Debug|Win32.Build.0 = Debug|Win32
+		{0F924EC6-377E-42A8-A08C-3B2B1DAA5CEA}.Release|Win32.ActiveCfg = Release|Win32
+		{0F924EC6-377E-42A8-A08C-3B2B1DAA5CEA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
