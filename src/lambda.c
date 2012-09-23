@@ -16,6 +16,7 @@ lambda_func lambda_compile(const char* expr)
 	char* foo = mmap(0, 8, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 #endif
 
+	// Dummy function that always returns zero
 	foo[0] = 0xB8;
 	foo[1] = 0x00;
 	foo[2] = 0x00;
@@ -31,6 +32,6 @@ void lambda_cleanup(lambda_func f)
 #if defined(_WIN32)
 	VirtualFree(f, 8, MEM_RELEASE);
 #elif defined(__linux))
-	munmap(f, 4096);
+	munmap(f, 8);
 #endif
 }
