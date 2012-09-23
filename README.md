@@ -26,7 +26,6 @@ int main()
 
 ## Todo
 
-* Lexer
 * Parser
 * Compiler
 * Assembler
