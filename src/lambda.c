@@ -14,15 +14,17 @@ lambda_func lambda_compile(const char* expr)
 
 	lambda_lex_cleanup(tokens);
 	
-	// Return dummy function that always returns zero
+	// Return dummy function that always returns x squared
 	foo = (uchar*)lambda_alloc(8, true);
 
-	foo[0] = 0xB8;
-	foo[1] = 0x00;
-	foo[2] = 0x00;
-	foo[3] = 0x00;
-	foo[4] = 0x00;
-	foo[5] = 0xC3;
+	foo[0] = 0x59; // pop ecx
+	foo[1] = 0x58; // pop eax
+	foo[2] = 0x0F; // imul eax, eax
+	foo[3] = 0xAF;
+	foo[4] = 0xC0;
+	foo[5] = 0x50; // push eax
+	foo[6] = 0x51; // push ecx
+	foo[7] = 0xC3; // ret
 
 	return (lambda_func)foo;
 }
