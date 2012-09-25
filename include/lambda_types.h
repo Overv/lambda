@@ -17,6 +17,10 @@ typedef int bool;
 #define NULL 0
 #endif
 
+#if defined(__GNUC__)
+typedef int (__attribute__((fastcall)) *lambda_func)(int);
+#else
 typedef int (__fastcall *lambda_func)(int);
+#endif
 
 #endif
