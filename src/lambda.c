@@ -15,7 +15,11 @@ lambda_func lambda_compile(const char* expr)
 
 	// TODO: Generate real code
 	state = lambda_asm_begin();
+#if defined(LAMBDA_FASTCALL)
 	lambda_asm_mov_reg(state, EAX, ECX);
+#else
+	lambda_asm_mov_reg(state, EAX, EDI);
+#endif
 	lambda_asm_imul_reg(state, EAX, EAX);
 	lambda_asm_ret(state);
 	f = lambda_asm_finish(state);
