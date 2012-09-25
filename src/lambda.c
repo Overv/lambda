@@ -15,14 +15,7 @@ lambda_func lambda_compile(const char* expr)
 
 	// TODO: Generate real code
 	state = lambda_asm_begin();
-#if defined(__GNUC__)
-	lambda_asm_mov_reg(state, EAX, EDI);
-#else
-	lambda_asm_pop(state, EDX);
-	lambda_asm_pop(state, EAX);
-	lambda_asm_push(state, EAX);
-	lambda_asm_push(state, EDX);
-#endif
+	lambda_asm_mov_reg(state, EAX, ECX);
 	lambda_asm_imul_reg(state, EAX, EAX);
 	lambda_asm_ret(state);
 	f = lambda_asm_finish(state);

@@ -17,6 +17,6 @@ typedef int bool;
 #define NULL 0
 #endif
 
-typedef int (*lambda_func)(int);
+typedef int (__fastcall *lambda_func)(int);
 
 #endif
