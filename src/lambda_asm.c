@@ -2,6 +2,7 @@
 #include <lambda_mem.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 struct lambda_asm_state* lambda_asm_begin()
 {
@@ -46,7 +47,7 @@ void lambda_asm_value(struct lambda_asm_state* state, int value)
 void lambda_asm_mov_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, MOV_REG);
-	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_mov_val(struct lambda_asm_state* state, int dest, int value)
@@ -71,7 +72,7 @@ void lambda_asm_push(struct lambda_asm_state* state, int src)
 void lambda_asm_add_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, ADD_REG);
-	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
@@ -84,7 +85,7 @@ void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
 void lambda_asm_sub_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, SUB_REG);
-	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_sub_val(struct lambda_asm_state* state, int dest, int value)
@@ -98,7 +99,7 @@ void lambda_asm_imul_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, IMUL_REG_1);
 	lambda_asm_code(state, IMUL_REG_2);
-	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_imul_val(struct lambda_asm_state* state, int dest, int src, int value)
