@@ -28,7 +28,6 @@ int main()
 
 * Parser
 * Compiler
-* Assembler
 
 ## License
 
