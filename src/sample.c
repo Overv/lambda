@@ -1,14 +1,16 @@
 #include <stdio.h>
-#include <lambda.h>
+//#include <lambda.h>
+#include <lambda_asm.h>
 
 int main()
 {
-	int i;
+	int x, y;
 
 	lambda_func f = lambda_compile("x*x");
 
-	for (i = 1; i <= 10; i++) {
-		printf("%d^2 = %d\n", i, f(i));
+	for (x = 1; x <= 10; x++) {
+		y = f(x);
+		printf("%d^2 = %d\n", x, y);
 	}
 	
 	lambda_cleanup(f);

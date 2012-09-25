@@ -6,21 +6,22 @@
 lambda_func lambda_compile(const char* expr)
 {
 	struct lambda_lex_token* tokens = NULL;
+	struct lambda_asm_state* state;
 	lambda_func f;
 
 	// Lexical analysis
 	if (lambda_lex(expr, &tokens) == 0)
 		return NULL;
 
-	// Generate code
-	// TODO: Support more than just constant[+-*/]constant by writing a real parser/compiler/assembler
-	if ((tokens->type != LAMBDA_TOKEN_NUMBER && tokens->type != LAMBDA_TOKEN_VARIABLE) ||
-		tokens->next->type != LAMBDA_TOKEN_OPERATOR ||
-		(tokens->next->next->type != LAMBDA_TOKEN_NUMBER && tokens->next->next->type != LAMBDA_TOKEN_VARIABLE) ||
-		tokens->next->next->next->type != LAMBDA_TOKEN_EOF)
-		return NULL;
-
-	f = lambda_asm_test(tokens, tokens->next->value.op, tokens->next->next);
+	// TODO: Generate real code
+	state = lambda_asm_begin();
+	lambda_asm_pop(state, EBX);
+	lambda_asm_pop(state, EAX);
+	lambda_asm_imul_reg(state, EAX, EAX);
+	lambda_asm_push(state, EAX);
+	lambda_asm_push(state, EBX);
+	lambda_asm_ret(state);
+	f = lambda_asm_finish(state);
 
 	// Clean up
 	lambda_lex_cleanup(tokens);

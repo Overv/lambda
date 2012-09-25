@@ -1,94 +1,120 @@
 #include <lambda_asm.h>
 #include <lambda_mem.h>
+#include <stdlib.h>
+#include <string.h>
 
-// This is a code playground, don't worry :-)
-lambda_func lambda_asm_test(struct lambda_lex_token* a, char op, struct lambda_lex_token* b)
+struct lambda_asm_state* lambda_asm_begin()
 {
-	uchar* code = (uchar*)lambda_alloc(32, true);
-	int off;
+	struct lambda_asm_state* state = (struct lambda_asm_state*)malloc(sizeof(struct lambda_asm_state));
+	state->buffer = (uchar*)malloc(16);
+	state->size = 16;
+	state->off = 0;
+	return state;
+}
 
-	code[0] = POP;
-	code[1] = ECX;
-	code[2] = POP;
-	code[3] = EBX;
-	
-	if (a->type == LAMBDA_TOKEN_NUMBER) {
-		code[4] = MOV;
-		code[5] = EAX;
-		*((int*)&code[6]) = a->value.number;
+lambda_func lambda_asm_finish(struct lambda_asm_state* state)
+{
+	lambda_func f = (lambda_func)lambda_alloc(state->off);
+	memcpy(f, state->buffer, state->off);
+	free(state->buffer);
+	state->buffer = NULL;
+	return f;
+}
 
-		off = 10;
-	} else {
-		// mov eax, ebx
-		code[4] = 0x89;
-		code[5] = 0xD8;
-
-		off = 4;
-	}
-	
-	if (op == '+') {
-		if (b->type == LAMBDA_TOKEN_NUMBER) {
-			code[off] = ADD;
-			*((int*)&code[off+1]) = b->value.number;
-
-			off = off + 5;
-		} else {
-			code[off] = 0x03;
-			code[off+1] = 0xC3;
-
-			off = off + 2;
-		}
-	} else if (op == '-') {
-		if (b->type == LAMBDA_TOKEN_NUMBER) {
-			code[off] = SUB;
-			*((int*)&code[off+1]) = b->value.number;
-
-			off = off + 5;
-		} else {
-			code[off] = 0x2B;
-			code[off+1] = 0xC3;
-
-			off = off + 2;
-		}
-	} else if (op == '*') {
-		if (b->type == LAMBDA_TOKEN_NUMBER) {
-			code[off] = 0x69;
-			code[off+1] = 0xC0;
-			*((int*)&code[off+2]) = b->value.number;
-
-			off = off + 6;
-		} else {
-			code[off] = 0xF7;
-			code[off+1] = 0xEB;
-
-			off = off + 2;
-		}
-	} else if (op == '/') {
-		if (b->type == LAMBDA_TOKEN_NUMBER) {
-			code[off] = MOV;
-			code[off+1] = EDX;
-			*((int*)&code[off+2]) = 0;
-			code[off+6] = MOV;
-			code[off+7] = EDI;
-			*((int*)&code[off+8]) = b->value.number;
-			code[off+12] = 0xF7;
-			code[off+13] = 0xFF;
-
-			off = off + 14;
-		} else {
-			code[off] = MOV;
-			code[off+1] = EDX;
-			*((int*)&code[off+2]) = 0;
-			code[off+6] = 0xF7;
-			code[off+7] = 0xFB;
-
-			off = off + 8;
-		}
+void lambda_asm_code(struct lambda_asm_state* state, uchar code)
+{
+	if (state->off + 1 >= state->size) {
+		state->buffer = (uchar*)realloc(state->buffer, state->size * 2);
+		state->size *= 2;
 	}
 
-	code[off+0] = PUSH + EAX - EAX;
-	code[off+1] = PUSH + ECX - EAX;
-	code[off+2] = RET;
+	state->buffer[state->off] = code;
+	state->off++;
+}
 
-	return (lambda_func)code;
+void lambda_asm_value(struct lambda_asm_state* state, int value)
+{
+	if (state->off + (int)sizeof(int) >= state->size) {
+		state->buffer = (uchar*)realloc(state->buffer, state->size * 2);
+		state->size *= 2;
+	}
+
+	*(int*)&state->buffer[state->off] = value;
+	state->off += sizeof(int);
+}
+
+void lambda_asm_mov_reg(struct lambda_asm_state* state, int dest, int src)
+{
+	lambda_asm_code(state, MOV_REG);
+	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+}
+
+void lambda_asm_mov_val(struct lambda_asm_state* state, int dest, int value)
+{
+	lambda_asm_code(state, MOV_VAL);
+	lambda_asm_code(state, MOD_REG | dest);
+	lambda_asm_value(state, value);
+}
+
+void lambda_asm_pop(struct lambda_asm_state* state, int dest)
+{
+	lambda_asm_code(state, POP);
+	lambda_asm_code(state, MOD_REG | dest);
+}
+
+void lambda_asm_push(struct lambda_asm_state* state, int src)
+{
+	lambda_asm_code(state, PUSH);
+	lambda_asm_code(state, MOD_REG | (6 << 3) | src);
+}
+
+void lambda_asm_add_reg(struct lambda_asm_state* state, int dest, int src)
+{
+	lambda_asm_code(state, ADD_REG);
+	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+}
+
+void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
+{
+	lambda_asm_code(state, ADDSUB_VAL);
+	lambda_asm_code(state, MOD_REG | dest);
+	lambda_asm_value(state, value);
+}
+
+void lambda_asm_sub_reg(struct lambda_asm_state* state, int dest, int src)
+{
+	lambda_asm_code(state, SUB_REG);
+	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+}
+
+void lambda_asm_sub_val(struct lambda_asm_state* state, int dest, int value)
+{
+	lambda_asm_code(state, ADDSUB_VAL);
+	lambda_asm_code(state, MOD_REG | (5 << 3) | dest);
+	lambda_asm_value(state, value);
+}
+
+void lambda_asm_imul_reg(struct lambda_asm_state* state, int dest, int src)
+{
+	lambda_asm_code(state, IMUL_REG_1);
+	lambda_asm_code(state, IMUL_REG_2);
+	lambda_asm_code(state, MOD_REG | (src << 3) | dest);
+}
+
+void lambda_asm_imul_val(struct lambda_asm_state* state, int dest, int src, int value)
+{
+	lambda_asm_code(state, IMUL_VAL);
+	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_value(state, value);
+}
+
+void lambda_asm_idiv(struct lambda_asm_state* state, int divisor)
+{
+	lambda_asm_code(state, IDIV);
+	lambda_asm_code(state, MOD_REG | (7 << 3) | divisor);
+}
+
+void lambda_asm_ret(struct lambda_asm_state* state)
+{
+	lambda_asm_code(state, RET);
 }

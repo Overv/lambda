@@ -34,11 +34,6 @@ struct lambda_lex_state {
 };
 
 bool lambda_lex(const char* expr, struct lambda_lex_token** tokens);
-
-struct lambda_lex_token* lambda_lex_new_token(struct lambda_lex_token* current);
-
-int lambda_lex_read_number(struct lambda_lex_state* state);
-
 void lambda_lex_cleanup(struct lambda_lex_token* tokens);
 
 #endif

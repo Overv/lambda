@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct lambda_lex_token* lambda_lex_new_token(struct lambda_lex_token* current);
+int lambda_lex_read_number(struct lambda_lex_state* state);
+
 bool lambda_lex(const char* expr, struct lambda_lex_token** tokens)
 {
 	struct lambda_lex_state s = {expr, 0, expr[0], expr[1], NULL, NULL};
