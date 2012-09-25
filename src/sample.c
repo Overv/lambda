@@ -1,6 +1,5 @@
 #include <stdio.h>
-//#include <lambda.h>
-#include <lambda_asm.h>
+#include <lambda.h>
 
 int main()
 {
@@ -14,7 +13,6 @@ int main()
 	}
 	
 	lambda_cleanup(f);
-
-	getchar();
+	
 	return 0;
 }
