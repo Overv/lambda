@@ -7,7 +7,6 @@
 lambda_func lambda_compile(const char* expr)
 {
 	struct lambda_lex_token* tokens = NULL;
-	struct lambda_asm_state* state;
 	lambda_func f;
 
 	// Lexical analysis

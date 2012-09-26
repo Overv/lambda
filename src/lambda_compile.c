@@ -10,6 +10,10 @@ lambda_func lambda_compile_tokens(struct lambda_lex_token* tokens)
 {
 	lambda_func f;
 	struct lambda_asm_state* state = lambda_asm_begin();
+
+	// Preserve registers
+	lambda_asm_push(state, LAMBDA_ECX);
+	lambda_asm_push(state, LAMBDA_EBX);
 	
 	// Initialize registers
 	lambda_asm_mov_reg(state, LAMBDA_EBX, LAMBDA_REG_PARAM);
@@ -43,6 +47,10 @@ lambda_func lambda_compile_tokens(struct lambda_lex_token* tokens)
 
 		tokens = tokens->next;
 	}
+
+	// Restore registers
+	lambda_asm_pop(state, LAMBDA_EBX);
+	lambda_asm_pop(state, LAMBDA_ECX);
 
 	// Finish
 	lambda_asm_ret(state);
