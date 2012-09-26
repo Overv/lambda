@@ -35,6 +35,7 @@ bool lambda_lex(const char* expr, struct lambda_lex_token** tokens)
 			break;
 
 		case '+': case '-': case '*': case '/':
+			// TODO: Support negative numbers
 			t = lambda_lex_new_token(t);
 			t->type = LAMBDA_TOKEN_OPERATOR;
 			t->value.op = s.cur;
@@ -44,7 +45,8 @@ bool lambda_lex(const char* expr, struct lambda_lex_token** tokens)
 			break;
 
 		default:
-			lambda_lex_cleanup(s.first_token);
+			if (s.first_token != NULL)
+				lambda_lex_cleanup(s.first_token);
 			return false;
 		}
 
@@ -100,4 +102,23 @@ void lambda_lex_cleanup(struct lambda_lex_token* tokens)
 		tokens = tokens->next;
 	}
 	free(tokens);
+}
+
+void lambda_lex_print(struct lambda_lex_token* tokens)
+{
+	int i = 0;
+
+	while (tokens != NULL) {
+		if (tokens->type == LAMBDA_TOKEN_NUMBER)
+			printf("%03d: constant (%d)\n", i, tokens->value.number);
+		else if (tokens->type == LAMBDA_TOKEN_VARIABLE)
+			printf("%03d: variable (x)\n", i);
+		else if (tokens->type == LAMBDA_TOKEN_OPERATOR)
+			printf("%03d: operator (%c)\n", i, tokens->value.op);
+		else if (tokens->type == LAMBDA_TOKEN_EOF)
+			printf("%03d: end-of-file\n", i);
+
+		tokens = tokens->next;
+		i++;
+	}
 }

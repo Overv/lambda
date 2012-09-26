@@ -46,76 +46,76 @@ void lambda_asm_value(struct lambda_asm_state* state, int value)
 
 void lambda_asm_mov_reg(struct lambda_asm_state* state, int dest, int src)
 {
-	lambda_asm_code(state, MOV_REG);
-	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_MOV_REG);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_mov_val(struct lambda_asm_state* state, int dest, int value)
 {
-	lambda_asm_code(state, MOV_VAL);
-	lambda_asm_code(state, MOD_REG | dest);
+	lambda_asm_code(state, LAMBDA_MOV_VAL);
+	lambda_asm_code(state, LAMBDA_MOD_REG | dest);
 	lambda_asm_value(state, value);
 }
 
 void lambda_asm_pop(struct lambda_asm_state* state, int dest)
 {
-	lambda_asm_code(state, POP);
-	lambda_asm_code(state, MOD_REG | dest);
+	lambda_asm_code(state, LAMBDA_POP);
+	lambda_asm_code(state, LAMBDA_MOD_REG | dest);
 }
 
 void lambda_asm_push(struct lambda_asm_state* state, int src)
 {
-	lambda_asm_code(state, PUSH);
-	lambda_asm_code(state, MOD_REG | (6 << 3) | src);
+	lambda_asm_code(state, LAMBDA_PUSH);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (6 << 3) | src);
 }
 
 void lambda_asm_add_reg(struct lambda_asm_state* state, int dest, int src)
 {
-	lambda_asm_code(state, ADD_REG);
-	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_ADD_REG);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
 {
-	lambda_asm_code(state, ADDSUB_VAL);
-	lambda_asm_code(state, MOD_REG | dest);
+	lambda_asm_code(state, LAMBDA_ADDSUB_VAL);
+	lambda_asm_code(state, LAMBDA_MOD_REG | dest);
 	lambda_asm_value(state, value);
 }
 
 void lambda_asm_sub_reg(struct lambda_asm_state* state, int dest, int src)
 {
-	lambda_asm_code(state, SUB_REG);
-	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_SUB_REG);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_sub_val(struct lambda_asm_state* state, int dest, int value)
 {
-	lambda_asm_code(state, ADDSUB_VAL);
-	lambda_asm_code(state, MOD_REG | (5 << 3) | dest);
+	lambda_asm_code(state, LAMBDA_ADDSUB_VAL);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (5 << 3) | dest);
 	lambda_asm_value(state, value);
 }
 
 void lambda_asm_imul_reg(struct lambda_asm_state* state, int dest, int src)
 {
-	lambda_asm_code(state, IMUL_REG_1);
-	lambda_asm_code(state, IMUL_REG_2);
-	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_IMUL_REG_1);
+	lambda_asm_code(state, LAMBDA_IMUL_REG_2);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
 }
 
 void lambda_asm_imul_val(struct lambda_asm_state* state, int dest, int src, int value)
 {
-	lambda_asm_code(state, IMUL_VAL);
-	lambda_asm_code(state, MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_IMUL_VAL);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
 	lambda_asm_value(state, value);
 }
 
 void lambda_asm_idiv(struct lambda_asm_state* state, int divisor)
 {
-	lambda_asm_code(state, IDIV);
-	lambda_asm_code(state, MOD_REG | (7 << 3) | divisor);
+	lambda_asm_code(state, LAMBDA_IDIV);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (7 << 3) | divisor);
 }
 
 void lambda_asm_ret(struct lambda_asm_state* state)
 {
-	lambda_asm_code(state, RET);
+	lambda_asm_code(state, LAMBDA_RET);
 }

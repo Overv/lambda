@@ -1,7 +1,8 @@
 #include <lambda.h>
 #include <lambda_mem.h>
 #include <lambda_lex.h>
-#include <lambda_asm.h>
+#include <lambda_parse.h>
+#include <lambda_compile.h>
 
 lambda_func lambda_compile(const char* expr)
 {
@@ -10,15 +11,17 @@ lambda_func lambda_compile(const char* expr)
 	lambda_func f;
 
 	// Lexical analysis
-	if (lambda_lex(expr, &tokens) == 0)
+	if (lambda_lex(expr, &tokens) == false)
 		return NULL;
 
-	// TODO: Generate real code
-	state = lambda_asm_begin();
-	lambda_asm_mov_reg(state, EAX, REG_PARAM);
-	lambda_asm_imul_reg(state, EAX, EAX);
-	lambda_asm_ret(state);
-	f = lambda_asm_finish(state);
+	// Parse tokens and prepare compiler input
+	if (lambda_parse(tokens) == false) {
+		lambda_lex_cleanup(tokens);
+		return NULL;
+	}
+
+	// Turn token sequence into instructions
+	f = lambda_compile_tokens(tokens);
 
 	// Clean up
 	lambda_lex_cleanup(tokens);

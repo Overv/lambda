@@ -21,14 +21,14 @@ typedef int bool;
 // is passed via the ECX register. On 64-bit platforms we assume the System V AMD64 ABI
 // on GCC and Microsoft's calling convention on MSVC.
 #if defined(_MSC_VER)
-	#define REG_PARAM ECX
+	#define LAMBDA_REG_PARAM LAMBDA_ECX
 	typedef int (__fastcall *lambda_func)(int);
 #elif defined(__GNUC__)
 	#if defined(__LP64__)
-		#define REG_PARAM EDI
+		#define LAMBDA_REG_PARAM LAMBDA_EDI
 		typedef int (*lambda_func)(int);
 	#else
-		#define REG_PARAM ECX
+		#define LAMBDA_REG_PARAM LAMBDA_ECX
 		typedef int (__attribute__((fastcall)) *lambda_func)(int);
 	#endif
 #endif

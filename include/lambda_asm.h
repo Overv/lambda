@@ -8,31 +8,31 @@
 */
 
 // Registers
-#define EAX 0
-#define ECX 1
-#define EDX 2
-#define EBX 3
-#define ESP 4
-#define EBP 5
-#define ESI 6
-#define EDI 7
+#define LAMBDA_EAX 0
+#define LAMBDA_ECX 1
+#define LAMBDA_EDX 2
+#define LAMBDA_EBX 3
+#define LAMBDA_ESP 4
+#define LAMBDA_EBP 5
+#define LAMBDA_ESI 6
+#define LAMBDA_EDI 7
 
 // Instructions
-#define MOV_REG 0x8B
-#define MOV_VAL 0xC7
-#define POP 0x8F
-#define PUSH 0xFF
-#define ADD_REG 0x01
-#define SUB_REG 0x29
-#define ADDSUB_VAL 0x81
-#define IMUL_REG_1 0x0F
-#define IMUL_REG_2 0xAF
-#define IMUL_VAL 0x69
-#define IDIV 0xF7
-#define RET 0xC3
+#define LAMBDA_MOV_REG 0x8B
+#define LAMBDA_MOV_VAL 0xC7
+#define LAMBDA_POP 0x8F
+#define LAMBDA_PUSH 0xFF
+#define LAMBDA_ADD_REG 0x01
+#define LAMBDA_SUB_REG 0x29
+#define LAMBDA_ADDSUB_VAL 0x81
+#define LAMBDA_IMUL_REG_1 0x0F
+#define LAMBDA_IMUL_REG_2 0xAF
+#define LAMBDA_IMUL_VAL 0x69
+#define LAMBDA_IDIV 0xF7
+#define LAMBDA_RET 0xC3
 
 // Addressing modes
-#define MOD_REG (3 << 6)
+#define LAMBDA_MOD_REG (3 << 6)
 
 // Assembler state
 struct lambda_asm_state {

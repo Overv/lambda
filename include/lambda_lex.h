@@ -13,6 +13,8 @@
 #define LAMBDA_TOKEN_OPERATOR 2
 #define LAMBDA_TOKEN_VARIABLE 3
 
+#define LAMBDA_IS_OPERAND(t) (t == LAMBDA_TOKEN_NUMBER || t == LAMBDA_TOKEN_VARIABLE)
+
 struct lambda_lex_token {
 	int type;
 	union value_t {
@@ -35,5 +37,6 @@ struct lambda_lex_state {
 
 bool lambda_lex(const char* expr, struct lambda_lex_token** tokens);
 void lambda_lex_cleanup(struct lambda_lex_token* tokens);
+void lambda_lex_print(struct lambda_lex_token* tokens);
 
 #endif
