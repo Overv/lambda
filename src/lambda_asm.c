@@ -72,7 +72,7 @@ void lambda_asm_push(struct lambda_asm_state* state, int src)
 void lambda_asm_add_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, LAMBDA_ADD_REG);
-	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (src << 3) | dest);
 }
 
 void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
@@ -85,7 +85,7 @@ void lambda_asm_add_val(struct lambda_asm_state* state, int dest, int value)
 void lambda_asm_sub_reg(struct lambda_asm_state* state, int dest, int src)
 {
 	lambda_asm_code(state, LAMBDA_SUB_REG);
-	lambda_asm_code(state, LAMBDA_MOD_REG | (dest << 3) | src);
+	lambda_asm_code(state, LAMBDA_MOD_REG | (src << 3) | dest);
 }
 
 void lambda_asm_sub_val(struct lambda_asm_state* state, int dest, int value)
