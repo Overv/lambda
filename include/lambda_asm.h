@@ -17,6 +17,12 @@
 #define ESI 6
 #define EDI 7
 
+#ifdef LAMBDA_FASTCALL
+#define REG_PARAM ECX
+#else
+#define REG_PARAM EDI
+#endif
+
 // Instructions
 #define MOV_REG 0x8B
 #define MOV_VAL 0xC7

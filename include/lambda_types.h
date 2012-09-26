@@ -17,9 +17,8 @@ typedef int bool;
 #define NULL 0
 #endif
 
-// Both GCC and MSC use the fastcall convention on 32-bit to ensure that x lands in the ECX
-// register instead of the stack. On 64-bit platforms with GCC, we have to assume the compiler
-// uses the EDI register instead, because fastcall is not supported.
+// Both GCC and MSVC use the fastcall convention on 32-bit to ensure that the parameter
+// is passed via the ECX register. On 64-bit platforms we assume the System V AMD64 ABI.
 #if defined(_MSC_VER)
 #define LAMBDA_FASTCALL
 typedef int (__fastcall *lambda_func)(int);
