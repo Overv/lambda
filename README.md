@@ -10,12 +10,12 @@ This is an experimental library for compiling anonymous functions based on C#'s 
 
 int main()
 {
-	int i;
+	int x;
 
-	lambda_func f = lambda_compile("3x+5");
+	lambda_func f = lambda_compile("3xx+5x-9");
 
-	for (i = 1; i <= 10; i++) {
-		printf("%d squared = %d\n", i, f(i));
+	for (x = 1; x <= 10; x++) {
+		printf("%d squared = %d\n", x, f(x));
 	}
 
 	lambda_cleanup(f);

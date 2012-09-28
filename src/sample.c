@@ -3,16 +3,15 @@
 
 int main()
 {
-	int x, y;
+	int i;
 
-	lambda_func f = lambda_compile("3x+5");
+	lambda_func f = lambda_compile("3xx+5x-9");
 
-	for (x = 1; x <= 10; x++) {
-		y = f(x);
-		printf("%d^2 = %d\n", x, y);
+	for (i = 1; i <= 10; i++) {
+		printf("%d squared = %d\n", i, f(i));
 	}
 
 	lambda_cleanup(f);
-	
+
 	return 0;
 }

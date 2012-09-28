@@ -23,15 +23,15 @@ bool lambda_parse_syntax(struct lambda_lex_token* tokens)
 
 	for (;;) {
 		// An operator must be surrounded by two operands
-		if (token->type == LAMBDA_TOKEN_OPERATOR && (!LAMBDA_IS_OPERAND(token->prev->type) || !LAMBDA_IS_OPERAND(token->next->type)))
+		if (token->type == LAMBDA_TOKEN_OPERATOR && (!LAMBDA_IS_OPERAND(token->prev) || !LAMBDA_IS_OPERAND(token->next)))
 			return false;
 
 		// A combination like x2 is not valid
 		if (token->type == LAMBDA_TOKEN_VARIABLE && token->next->type == LAMBDA_TOKEN_NUMBER)
 			return false;
 
-		// Implicit multiplication (e.g. 2x -> 2 * x)
-		if (token->type == LAMBDA_TOKEN_NUMBER && token->next->type == LAMBDA_TOKEN_VARIABLE) {
+		// Implicit multiplication (e.g. 2x -> 2 * x or xx -> x * x)
+		if (LAMBDA_IS_OPERAND(token) && token->next->type == LAMBDA_TOKEN_VARIABLE) {
 			temp = token->next;
 			token->next = (struct lambda_lex_token*)malloc(sizeof(struct lambda_lex_token));
 			token->next->type = LAMBDA_TOKEN_OPERATOR;
