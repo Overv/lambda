@@ -1,4 +1,5 @@
 #include <lambda_parse.h>
+#include <stdlib.h>
 
 bool lambda_parse(struct lambda_lex_token* tokens)
 {
@@ -14,6 +15,7 @@ bool lambda_parse(struct lambda_lex_token* tokens)
 bool lambda_parse_syntax(struct lambda_lex_token* tokens)
 {
 	struct lambda_lex_token* token = tokens;
+	struct lambda_lex_token* temp;
 
 	// Sequence must start with operand
 	if (token->type != LAMBDA_TOKEN_NUMBER && token->type != LAMBDA_TOKEN_VARIABLE)
@@ -21,13 +23,23 @@ bool lambda_parse_syntax(struct lambda_lex_token* tokens)
 
 	for (;;) {
 		// An operator must be surrounded by two operands
-		// TODO: Support implicit multiplication, e.g. 3x + 5
 		if (token->type == LAMBDA_TOKEN_OPERATOR && (!LAMBDA_IS_OPERAND(token->prev->type) || !LAMBDA_IS_OPERAND(token->next->type)))
 			return false;
 
-		// TODO: Support * and /
-		if (token->type == LAMBDA_TOKEN_OPERATOR && token->value.op == '/')
+		// A combination like x2 is not valid
+		if (token->type == LAMBDA_TOKEN_VARIABLE && token->next->type == LAMBDA_TOKEN_NUMBER)
 			return false;
+
+		// Implicit multiplication (e.g. 2x -> 2 * x)
+		if (token->type == LAMBDA_TOKEN_NUMBER && token->next->type == LAMBDA_TOKEN_VARIABLE) {
+			temp = token->next;
+			token->next = (struct lambda_lex_token*)malloc(sizeof(struct lambda_lex_token));
+			token->next->type = LAMBDA_TOKEN_OPERATOR;
+			token->next->value.op = '*';
+			token->next->prev = token;
+			token->next->next = temp;
+			temp->prev = token->next;
+		}
 
 		if(token->next->type == LAMBDA_TOKEN_EOF)
 			break;

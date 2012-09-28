@@ -12,7 +12,7 @@ int main()
 {
 	int i;
 
-	lambda_func f = lambda_compile("x*x");
+	lambda_func f = lambda_compile("3x+5");
 
 	for (i = 1; i <= 10; i++) {
 		printf("%d squared = %d\n", i, f(i));
@@ -26,8 +26,8 @@ int main()
 
 ## Todo
 
-* Parser
-* Compiler
+* Floating point numbers
+* Bracket support
 
 ## License
 

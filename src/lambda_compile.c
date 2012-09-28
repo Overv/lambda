@@ -4,7 +4,7 @@
 // Register layout
 // ESI : total
 // EDI : variable x
-// EDX:EAX : immediate (EDX only for division)
+// EDX:EAX, EBX : immediate (EDX and EBX only for division)
 
 void lambda_compile_mov_token(struct lambda_asm_state* state, int reg, struct lambda_lex_token* value);
 
@@ -17,6 +17,7 @@ lambda_func lambda_compile_tokens(struct lambda_lex_token* tokens)
 	// Preserve registers
 	lambda_asm_push(state, LAMBDA_ESI);
 	lambda_asm_push(state, LAMBDA_EDI);
+	lambda_asm_push(state, LAMBDA_EBX);
 	
 	// Initialize registers
 	if (LAMBDA_REG_PARAM != LAMBDA_EDI)
@@ -77,6 +78,21 @@ lambda_func lambda_compile_tokens(struct lambda_lex_token* tokens)
 					lambda_asm_imul_reg(state, LAMBDA_EAX, LAMBDA_EDI);
 
 				break;
+
+			case '/':
+				if (pLevel < 2) {
+					lambda_asm_mov_val(state, LAMBDA_EDX, 0);
+					lambda_compile_mov_token(state, LAMBDA_EAX, tokens->prev);
+					pLevel = 2;
+				}
+
+				if (tokens->next->type == LAMBDA_TOKEN_NUMBER) {
+					lambda_asm_mov_val(state, LAMBDA_EBX, tokens->next->value.number);
+					lambda_asm_idiv(state, LAMBDA_EBX);
+				} else
+					lambda_asm_idiv(state, LAMBDA_EDI);
+
+				break;
 			}
 		}
 
@@ -90,6 +106,7 @@ lambda_func lambda_compile_tokens(struct lambda_lex_token* tokens)
 	lambda_asm_mov_reg(state, LAMBDA_EAX, LAMBDA_ESI);
 
 	// Restore registers
+	lambda_asm_pop(state, LAMBDA_EBX);
 	lambda_asm_pop(state, LAMBDA_EDI);
 	lambda_asm_pop(state, LAMBDA_ESI);
 
