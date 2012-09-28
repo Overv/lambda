@@ -18,7 +18,7 @@ lambda_func lambda_asm_finish(struct lambda_asm_state* state)
 	lambda_func f = (lambda_func)lambda_alloc(state->off);
 	memcpy(f, state->buffer, state->off);
 	free(state->buffer);
-	state->buffer = NULL;
+	free(state);
 	return f;
 }
 
