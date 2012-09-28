@@ -14,6 +14,7 @@
 #define LAMBDA_TOKEN_VARIABLE 3
 
 #define LAMBDA_IS_OPERAND(t) (t == LAMBDA_TOKEN_NUMBER || t == LAMBDA_TOKEN_VARIABLE)
+#define LAMBDA_PRECEDENCE(t) (t->type == LAMBDA_TOKEN_OPERATOR ? ((t->value.op == '+' || t->value.op == '-') ? 1 : 2) : 0)
 
 struct lambda_lex_token {
 	int type;

@@ -26,7 +26,7 @@ bool lambda_parse_syntax(struct lambda_lex_token* tokens)
 			return false;
 
 		// TODO: Support * and /
-		if (token->type == LAMBDA_TOKEN_OPERATOR && (token->value.op != '+' && token->value.op != '-'))
+		if (token->type == LAMBDA_TOKEN_OPERATOR && token->value.op == '/')
 			return false;
 
 		if(token->next->type == LAMBDA_TOKEN_EOF)
